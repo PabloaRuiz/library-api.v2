@@ -7,7 +7,6 @@ import org.library.book.persistence.entity.BookEntity;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class BookPersistence implements PanacheMongoRepositoryBase<BookEntity, ObjectId> {
