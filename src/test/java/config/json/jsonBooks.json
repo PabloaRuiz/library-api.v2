@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Java",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 180,
+    "available": true
+  },
+  {
+    "title": "Java II",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 120,
+    "available": true
+  },
+  {
+    "title": "Introdução Quarkus",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 60,
+    "available": true
+  },
+  {
+    "title": "Microserviços",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 110,
+    "available": true
+  },
+  {
+    "title": "Introdução a MongoDB",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 117,
+    "available": false
+  },
+  {
+    "title": "Trabalhando com listas em java",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 64,
+    "available": false
+  },
+  {
+    "title": "Algoritimos bidimensionais",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 72,
+    "available": true
+  },
+  {
+    "title": "Microprofile",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 150,
+    "available": true
+  },
+  {
+    "title": "Como melhorar seu código",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 72,
+    "available": true
+  },
+  {
+    "title": "DDD",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 148,
+    "available": true
+  }
+]

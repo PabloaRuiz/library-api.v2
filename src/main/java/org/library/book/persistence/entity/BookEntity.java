@@ -1,17 +1,14 @@
 package org.library.book.persistence.entity;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
-import org.library.loan.domain.Loan;
-
-import java.util.Set;
 
 
 @Data
-@MongoEntity(collection = "book")
+@MongoEntity(database = "library", collection = "book")
 public class BookEntity {
 
     @BsonId
@@ -19,21 +16,19 @@ public class BookEntity {
     private String title;
     private String author;
     private String isbn;
-    private Set<Loan> loans;
+    private int page;
+    private boolean available;
 
-    public BookEntity(String title, String author, String isbn, Set<Loan> loans) {
+    public BookEntity() {
+    }
+
+    public BookEntity(String title, String author, String isbn, int page, boolean available) {
         this.id = new ObjectId();
         this.title = title;
         this.author = author;
         this.isbn = isbn;
-        this.loans = loans;
-    }
-
-    public BookEntity(String title, String author, String isbn) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
-        this.loans = null;
+        this.page = page;
+        this.available = available;
     }
 
 }

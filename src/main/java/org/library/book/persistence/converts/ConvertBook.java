@@ -10,7 +10,8 @@ public class ConvertBook {
                 domain.title(),
                 domain.author(),
                 domain.isbn(),
-                domain.loans());
+                domain.page(),
+                domain.available());
     }
 
     public static Book converterToBookDomain(BookEntity entity) {
@@ -18,6 +19,7 @@ public class ConvertBook {
                 entity.getTitle(),
                 entity.getAuthor(),
                 entity.getIsbn(),
-                entity.getLoans());
+                entity.getPage(),
+                entity.isAvailable());
     }
 }
