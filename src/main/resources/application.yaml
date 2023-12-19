@@ -2,4 +2,3 @@ quarkus:
   log: INFO
   mongodb:
     database: library
-    connection-string: mongodb://localhost:27017
