@@ -27,4 +27,5 @@ public class LoanResource {
         loanPersistence.persist(loanEntity);
         return loanEntity;
     }
+
 }
