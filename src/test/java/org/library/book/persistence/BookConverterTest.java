@@ -14,7 +14,7 @@ public class BookConverterTest {
 
     @Test
     void returnEntityBookToDomainBook() {
-        var book = Book.createBookWithoutLoans(
+        var book = Book.of(
                 "Teste unitários",
                 "Desconhecido",
                 "15411548",
