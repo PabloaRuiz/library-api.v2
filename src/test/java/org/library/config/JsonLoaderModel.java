@@ -1,4 +1,4 @@
-package config;
+package org.library.config;
 
 import io.restassured.internal.util.IOUtils;
 import lombok.RequiredArgsConstructor;

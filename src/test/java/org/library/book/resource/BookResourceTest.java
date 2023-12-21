@@ -11,8 +11,8 @@ import org.library.book.persistence.entity.BookEntity;
 
 import javax.inject.Inject;
 
-import static config.JsonLoaderModel.JSON_BOOK;
-import static config.JsonLoaderModel.JSON_BOOKS;
+import static org.library.config.JsonLoaderModel.JSON_BOOK;
+import static org.library.config.JsonLoaderModel.JSON_BOOKS;
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;

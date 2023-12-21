@@ -6,7 +6,7 @@ public record Book(String title,
                    int page,
                    boolean available) {
 
-    public static Book createBook(String title, String author, String isbn, int page, boolean available) {
+    public static Book of(String title, String author, String isbn, int page, boolean available) {
         return new Book(title, author, isbn, page, available);
     }
 }
