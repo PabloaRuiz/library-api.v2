@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 
 
 @Data
-@MongoEntity(database = "library", collection = "book")
+@MongoEntity(database = "Library", collection = "book")
 public class BookEntity {
 
     @BsonId
@@ -19,6 +19,7 @@ public class BookEntity {
     private boolean available;
 
     public BookEntity() {
+        this.id = new ObjectId();
     }
 
     public BookEntity(String title, String author, String isbn, int page, boolean available) {
