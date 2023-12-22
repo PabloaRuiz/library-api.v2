@@ -12,6 +12,7 @@ jobs:
     env:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      CODECOV_LINK: "https://app.codecov.io/gh/PabloaRuiz/library-api.v2/tree/feature%2Fadicionando-jacoco"
 
     steps:
       - name: Set up Maven
@@ -40,10 +41,10 @@ jobs:
         if: always()
         run: |
           status=${{ job.status }}
-          if [ "$status" == "success" ]; then
-            tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
-            message="Testes aprovados :white_check_mark:. Cobertura de código: [Detalhes no Codecov](${CODECOV_LINK})"
-          else
-            message="Testes falharam :x:"
-          fi
-          curl -X POST -H 'Content-type: application/json' --data "{\"text\": \"${message}\"}" $SLACK_WEBHOOK
+              if [ "$status" == "success" ]; then
+                tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
+                message="Testes aprovados :white_check_mark:. Cobertura de código: [Detalhes no Codecov](${CODECOV_LINK})"
+              else
+                message="Testes falharam :x:"
+              fi
+              curl -X POST -H 'Content-type: application/json' --data "{\"text\": \"${message}\"}" $SLACK_WEBHOOK
