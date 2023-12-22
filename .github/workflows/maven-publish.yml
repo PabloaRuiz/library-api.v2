@@ -42,7 +42,7 @@ jobs:
           status=${{ job.status }}
           if [ "$status" == "success" ]; then
             tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
-            message="Testes aprovados :white_check_mark:. Cobertura de código: $tests_passed"
+            message="Testes aprovados :white_check_mark:. Cobertura de código: [Detalhes no Codecov](${CODECOV_LINK})"
           else
             message="Testes falharam :x:"
           fi
