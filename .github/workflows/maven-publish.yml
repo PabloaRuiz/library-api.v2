@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
@@ -35,15 +34,3 @@ jobs:
 
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-
-      - name: Notify Slack
-        if: always()
-        run: |
-           status=${{ job.status }}
-           if [ "$status" == "success" ]; then
-              tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
-              message="Testes aprovados :white_check_mark:. Cobertura de código: $tests_passed"
-            else
-              message="Testes falharam :x:"
-            fi
-            curl -X POST -H 'Content-type: application/json' --data '{"text": "'"${message}"'"}' $SLACK_WEBHOOK
