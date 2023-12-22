@@ -39,7 +39,11 @@ jobs:
       - name: Notify Slack
         if: always()
         run: |
-          status=${{ job.status }}
-          if [ "$status" == "success" ]; then
-            tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
-            message="Testes aprovados :white_check_mark:. Cob
+            status=${{ job.status }}
+            if [ "$status" == "success" ]; then
+               tests_passed=$(cat target/surefire-reports/TEST*.xml | grep -oP '<testsuite[^>]+tests="(\d+)"' | awk -F'"' '{print $4}')
+               message="Testes aprovados :white_check_mark:. Cobertura de código: $tests_passed"
+            else
+             message="Testes falharam :x:"
+            fi
+            curl -X POST -H 'Content-type: application/json' --data "{\"text\": \"${message}\"}" $SLACK_WEBHOOK
