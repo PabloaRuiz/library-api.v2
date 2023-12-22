@@ -9,9 +9,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
     steps:
       - name: Set up Maven
         run: |
@@ -29,14 +26,3 @@ jobs:
       - name: Test with Maven
         id: test
         run: mvn test
-
-      - name: Notify Slack
-        if: always()
-        run: |
-          status=${{ job.steps.test.outcome }}
-          if [ "$status" == "success" ]; then
-            message="Testes aprovados :white_check_mark:"
-          else
-            message="Testes falharam :x:"
-          fi
-          curl -X POST -H 'Content-type: application/json' --data "{\"text\": \"$message\"}" $SLACK_WEBHOOK
