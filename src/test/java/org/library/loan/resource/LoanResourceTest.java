@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.library.book.domain.Book;
 import org.library.book.persistence.BookPersistence;
 import org.library.loan.domain.Loan;
@@ -19,10 +17,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.library.book.exception.ExceptionMessage.BOOK_NOT_IS_ON_LOAN;
 import static org.library.book.persistence.converts.ConvertBook.converterToBookEntity;
+import static org.library.loan.exception.ExceptionMessage.LOAN_IS_NOT;
 import static org.library.loan.persistence.converts.LoanConverts.convertToLoanEntity;
 
 @QuarkusTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoanResourceTest {
 
     private final String path = "/api/v2/loan/";
@@ -50,6 +51,7 @@ public class LoanResourceTest {
 
     @Test
     @DisplayName("return status http 200 information about the loan")
+    @Order(1)
     void returnOk() {
         given()
                 .when()
@@ -61,12 +63,27 @@ public class LoanResourceTest {
     }
 
     @Test
+    @DisplayName("return http 400 and error message when not finding the client")
+    @Order(2)
+    void returnErrorWhenNotFindingTheClient() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_ADD_BOOKS_LOAN.load())
+                .get(path + "customer/Joao")
+                .then()
+                .statusCode(404)
+                .body("message", equalTo(LOAN_IS_NOT.getDescription()));
+    }
+
+    @Test
     @DisplayName("return http 200 and the client information that was returned")
+    @Order(3)
     void returnLoan() {
         given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .get(path+"customer/Pablo")
+                .get(path + "customer/Pablo")
                 .then()
                 .statusCode(200)
                 .body("customer", equalTo("Pablo"))
@@ -76,24 +93,26 @@ public class LoanResourceTest {
 
     @Test
     @DisplayName("return http 200 and a list of all clients")
+    @Order(4)
     void returnListLoan() {
-      var loanList = given()
+        var loanList = given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .get(path+"list?page=0&size=10")
+                .get(path + "list?page=0&size=10")
                 .then()
                 .statusCode(200)
                 .extract()
                 .body()
-               .jsonPath()
-               .getList(".", LoanEntity.class);
+                .jsonPath()
+                .getList(".", LoanEntity.class);
 
-      assertEquals(5, loanList.size());
+        assertEquals(9, loanList.size());
 
     }
 
     @Test
     @DisplayName("returns http 204 when adding a book to our loan account")
+    @Order(5)
     void returnOkInAddBook() {
         initializeBooksData();
 
@@ -107,7 +126,7 @@ public class LoanResourceTest {
                 .when()
                 .contentType(APPLICATION_JSON)
                 .body(JSON_ADD_BOOKS_LOAN.load())
-                .patch(path+"loan/Beatriz")
+                .patch(path + "loan/Pablo")
                 .then()
                 .log()
                 .all()
@@ -119,6 +138,7 @@ public class LoanResourceTest {
         assertFalse(book1.isAvailable());
         assertFalse(book2.isAvailable());
     }
+
 
     @SneakyThrows
     private void initializeBooksData() {

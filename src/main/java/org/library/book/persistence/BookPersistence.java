@@ -27,7 +27,7 @@ public class BookPersistence implements PanacheMongoRepositoryBase<BookEntity, O
         persistOrUpdate(book);
     }
 
-    public List<BookEntity> findAvaliableBooks(boolean available) {
+    public List<BookEntity> findAvailableBooks(boolean available) {
         return list("available", available);
     }
 

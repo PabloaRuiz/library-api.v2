@@ -46,10 +46,4 @@ public record Loan(String customer,
             addObserver(book);
         }
     }
-
-//    private void notifyObservers(Book book) {
-//        for (BookObserver observer : observers) {
-//            observer.updateAvailability(book);
-//        }
-//    }
 }

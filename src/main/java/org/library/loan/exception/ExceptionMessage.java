@@ -8,8 +8,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ExceptionMessage {
 
-    INFRACTION_LIMIT("You have reached the maximum infraction limit"),
-    BOOK_NOT_AVAILABLE("book is not available");
+    LOAN_IS_NOT("Customer not found"),
+    BOOK_NOT_AVAILABLE("Book is not available"),
+    PROCESS_ERROR("Error processing list return request"),
+    ERROR_CREATING("Error saving user");
 
     private final String description;
 }

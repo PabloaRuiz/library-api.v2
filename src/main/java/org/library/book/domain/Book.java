@@ -1,7 +1,10 @@
 package org.library.book.domain;
 
+import lombok.SneakyThrows;
 import org.library.book.persistence.BookObserver;
 import org.library.book.persistence.BookPersistence;
+
+import static org.library.book.exception.ExceptionMessage.BOOK_NOT_IS_ON_LOAN;
 
 public record Book(String title,
                    String author,
@@ -16,10 +19,12 @@ public record Book(String title,
     }
 
     @Override
+    @SneakyThrows
     public void updateAvailability(Book book) {
         var bookEntity = bookPersistence.findByIsbn(book.isbn);
         if (bookEntity.isAvailable()) {
-          bookPersistence.leaveUnavailable(book.isbn);
+            bookPersistence.leaveUnavailable(book.isbn);
         }
     }
+
 }

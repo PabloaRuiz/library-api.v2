@@ -24,7 +24,6 @@ import static org.library.book.exception.ExceptionMessage.BOOK_NOT_EXIST;
 import static org.library.book.persistence.converts.ConvertBook.converterToBookEntity;
 
 @QuarkusTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class BookResourceTest {
 
     private final String path = "/api/v2/book/";
@@ -46,7 +45,6 @@ public class BookResourceTest {
         }
 
     }
-
 
     @Test
     @DisplayName("returns error when not finding the book by isbn")
@@ -100,7 +98,6 @@ public class BookResourceTest {
         assertEquals(10, bookList.size());
 
         persistence.deleteAll();
-
 
     }
 

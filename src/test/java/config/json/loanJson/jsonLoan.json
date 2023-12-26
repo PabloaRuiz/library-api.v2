@@ -7,14 +7,14 @@
       "author": "Pablo A. Ruiz",
       "isbn": "1478523698",
       "page": 180,
-      "available": true
+      "available": false
     },
     {
       "title": "Introdução Quarkus",
       "author": "Pablo A. Ruiz",
       "isbn": "1478523698",
       "page": 60,
-      "available": true
+      "available": false
     }
   ]
 }
