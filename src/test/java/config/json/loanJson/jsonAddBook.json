@@ -1,0 +1,16 @@
+[
+  {
+    "title": "github",
+    "author": "Pablo A. Ruiz",
+    "isbn": "1478523698",
+    "page": 180,
+    "available": true
+  },
+  {
+    "title": "Kotlin",
+    "author": "Pablo A. Ruiz",
+    "isbn": "485588585",
+    "page": 120,
+    "available": true
+  }
+]

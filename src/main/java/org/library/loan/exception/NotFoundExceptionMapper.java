@@ -1,11 +1,11 @@
 package org.library.loan.exception;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static org.jboss.resteasy.reactive.RestResponse.StatusCode.NOT_FOUND;
 import static org.library.book.exception.ExceptionMessage.BOOK_NOT_EXIST;
 
 @Provider
@@ -14,7 +14,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
     public Response toResponse(NotFoundException exception) {
         return Response.status(NOT_FOUND)
                 .entity(ResponseError.builder()
-                        .status(NOT_FOUND.getStatusCode())
+                        .status(NOT_FOUND)
                         .message(BOOK_NOT_EXIST.getDescription())
                         .detail(exception.getMessage())
                         .build())

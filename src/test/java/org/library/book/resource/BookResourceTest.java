@@ -2,19 +2,22 @@ package org.library.book.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.library.book.domain.Book;
 import org.library.book.persistence.BookPersistence;
 import org.library.book.persistence.entity.BookEntity;
 
-import javax.inject.Inject;
 
 import static config.JsonLoaderModel.JSON_BOOK;
 import static config.JsonLoaderModel.JSON_BOOKS;
 import static io.restassured.RestAssured.given;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.library.book.exception.ExceptionMessage.BOOK_NOT_EXIST;
@@ -76,6 +79,7 @@ public class BookResourceTest {
                 .body("page", equalTo(180));
 
         persistence.deleteAll();
+
     }
 
     @Test
@@ -96,6 +100,8 @@ public class BookResourceTest {
         assertEquals(10, bookList.size());
 
         persistence.deleteAll();
+
+
     }
 
     @Test

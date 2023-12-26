@@ -2,35 +2,54 @@ package org.library.loan.domain;
 
 import lombok.SneakyThrows;
 import org.library.book.domain.Book;
+import org.library.book.persistence.BookObserver;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.library.loan.exception.ExceptionMessage.BOOK_NOT_AVAILABLE;
 
 public record Loan(String customer,
                    String email,
-                   Map<Book, Instant> loans
+                   List<Book> loans
 ) {
 
-    public static Loan of(String customer, String email, Map<Book, Instant> loans) {
-        return new Loan(customer, email, Map.of());
+    private static final List<BookObserver> observers =
+            new ArrayList<>();
+
+    public void addObserver(BookObserver observer) {
+        observers.add(observer);
+
+        for (Book book : loans) {
+            observer.updateAvailability(book);
+        }
+    }
+
+    public static Loan of(String customer, String email, List<Book> loans) {
+        return new Loan(customer, email, List.of());
     }
 
     @SneakyThrows
-    public void addLoans(Map<Book, Instant> loan) {
+    public void addLoans(List<Book> books) {
 
-
-        for (Map.Entry<Book, Instant> entry : loan.entrySet()) {
-            var book = entry.getKey();
-
+        for (Book book : books) {
             var availableBook = book.available();
 
             if (!availableBook) {
                 throw new Exception(BOOK_NOT_AVAILABLE.getDescription());
             }
 
-            loans.put(book, entry.getValue());
+            loans().add(book);
+
+            addObserver(book);
         }
     }
+
+//    private void notifyObservers(Book book) {
+//        for (BookObserver observer : observers) {
+//            observer.updateAvailability(book);
+//        }
+//    }
 }

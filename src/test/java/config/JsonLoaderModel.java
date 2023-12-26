@@ -9,8 +9,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public enum JsonLoaderModel {
 
-    JSON_BOOK("src/test/java/config/json/jsonBook.json"),
-    JSON_BOOKS("src/test/java/config/json/jsonBooks.json");
+    JSON_BOOK("src/test/java/config/bookJson/jsonBook.json"),
+    JSON_BOOKS("src/test/java/config/bookJson/jsonBooks.json"),
+    JSON_LOAN("src/test/java/config/json/loanJson/jsonLoan.json"),
+    JSON_LOANS("src/test/java/config/json/loanJson/jsonLoans.json"),
+    JSON_ADD_BOOKS_LOAN("src/test/java/config/json/loanJson/jsonAddBook.json");
 
     private final String jsonFile;
 

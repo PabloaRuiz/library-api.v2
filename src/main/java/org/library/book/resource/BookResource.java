@@ -1,6 +1,7 @@
 package org.library.book.resource;
 
 
+import jakarta.ws.rs.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.library.book.persistence.BookPersistence;
@@ -8,10 +9,11 @@ import org.library.book.persistence.converts.ConvertBook;
 import org.library.book.persistence.entity.BookEntity;
 import org.library.book.domain.Book;
 
-import javax.ws.rs.*;
+
 import java.util.List;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+
 
 @Path("api/v2/book")
 @Produces(APPLICATION_JSON)

@@ -1,9 +1,134 @@
 package org.library.loan.resource;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.TestInstance;
+import jakarta.inject.Inject;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.library.book.domain.Book;
+import org.library.book.persistence.BookPersistence;
+import org.library.loan.domain.Loan;
+import org.library.loan.persistence.LoanPersistence;
+import org.library.loan.persistence.entity.LoanEntity;
+
+import static config.JsonLoaderModel.*;
+import static io.restassured.RestAssured.given;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.library.book.persistence.converts.ConvertBook.converterToBookEntity;
+import static org.library.loan.persistence.converts.LoanConverts.convertToLoanEntity;
 
 @QuarkusTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LoanResourceTest {
+
+    private final String path = "/api/v2/loan/";
+
+    @Inject
+    LoanPersistence loanPersistence;
+
+    @Inject
+    BookPersistence bookPersistence;
+
+    @Inject
+    ObjectMapper modelMapper;
+
+    @BeforeEach
+    @SneakyThrows
+    void setUp() {
+        var listLoans = modelMapper.readValue(JSON_LOANS.load(), Loan[].class);
+
+        for (Loan loan : listLoans) {
+            var loanDto = convertToLoanEntity(loan);
+            loanPersistence.persist(loanDto);
+        }
+
+    }
+
+    @Test
+    @DisplayName("return status http 200 information about the loan")
+    void returnOk() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_LOAN.load())
+                .post(path)
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("return http 200 and the client information that was returned")
+    void returnLoan() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .get(path+"customer/Pablo")
+                .then()
+                .statusCode(200)
+                .body("customer", equalTo("Pablo"))
+                .body("email", equalTo("pabloa@outlook.com"))
+                .body("loans", hasSize(2));
+    }
+
+    @Test
+    @DisplayName("return http 200 and a list of all clients")
+    void returnListLoan() {
+      var loanList = given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .get(path+"list?page=0&size=10")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+               .jsonPath()
+               .getList(".", LoanEntity.class);
+
+      assertEquals(5, loanList.size());
+
+    }
+
+    @Test
+    @DisplayName("returns http 204 when adding a book to our loan account")
+    void returnOkInAddBook() {
+        initializeBooksData();
+
+        var bookBeforeRenting1 = bookPersistence.findByIsbn("1478523698");
+        var bookBeforeRenting2 = bookPersistence.findByIsbn("485588585");
+
+        assertTrue(bookBeforeRenting1.isAvailable());
+        assertTrue(bookBeforeRenting2.isAvailable());
+
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_ADD_BOOKS_LOAN.load())
+                .patch(path+"loan/Beatriz")
+                .then()
+                .log()
+                .all()
+                .statusCode(204);
+
+        var book1 = bookPersistence.findByIsbn("1478523698");
+        var book2 = bookPersistence.findByIsbn("485588585");
+
+        assertFalse(book1.isAvailable());
+        assertFalse(book2.isAvailable());
+    }
+
+    @SneakyThrows
+    private void initializeBooksData() {
+        var listBooks = modelMapper.readValue(JSON_ADD_BOOKS_LOAN.load(), Book[].class);
+
+        for (Book book : listBooks) {
+            var bookEntity = converterToBookEntity(book);
+            bookPersistence.persist(bookEntity);
+        }
+
+    }
+
 }

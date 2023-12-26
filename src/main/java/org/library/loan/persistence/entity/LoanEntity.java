@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.library.book.domain.Book;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -17,12 +18,12 @@ public class LoanEntity {
     private ObjectId id;
     private String customer;
     private String email;
-    private Map<Book, Instant> loans = Map.of();
+    private List<Book> loans;
 
     public LoanEntity() {
     }
 
-    public LoanEntity(String customer, String email, Map<Book, Instant> loans) {
+    public LoanEntity(String customer, String email, List<Book> loans) {
         this.id = new ObjectId();
         this.customer = customer;
         this.email = email;

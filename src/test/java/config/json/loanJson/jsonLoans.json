@@ -1,0 +1,57 @@
+[
+  {
+    "customer": "Pabloa",
+    "email": "pabloa@outlook.com",
+    "loans": [
+      {
+        "title": "Java",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 180,
+        "available": true
+      },
+      {
+        "title": "Introdução Quarkus",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 60,
+        "available": true
+      },
+      {
+        "title": "Java",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 180,
+        "available": true
+      },
+      {
+        "title": "Introdução Quarkus",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 60,
+        "available": true
+      }
+    ]
+  },
+  {
+    "customer": "Beatriz",
+    "email": "beatriz@outlook.com",
+    "loans": [
+      {
+        "title": "Java",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 180,
+        "available": true
+      },
+      {
+        "title": "Introdução Quarkus",
+        "author": "Pablo A. Ruiz",
+        "isbn": "1478523698",
+        "page": 60,
+        "available": true
+      }
+    ]
+  }
+]
+
