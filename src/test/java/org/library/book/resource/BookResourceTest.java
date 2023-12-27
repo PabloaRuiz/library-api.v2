@@ -7,15 +7,11 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.library.book.domain.Book;
 import org.library.book.persistence.BookPersistence;
 import org.library.book.persistence.entity.BookEntity;
 
-
-import static config.JsonLoaderModel.JSON_BOOK;
-import static config.JsonLoaderModel.JSON_BOOKS;
+import static config.JsonLoaderModel.*;
 import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,6 +23,8 @@ import static org.library.book.persistence.converts.ConvertBook.converterToBookE
 public class BookResourceTest {
 
     private final String path = "/api/v2/book/";
+
+    private final String error =  "Error in the operation, please check that the registration fields are completed";
 
     @Inject
     BookPersistence persistence;
@@ -79,6 +77,25 @@ public class BookResourceTest {
         persistence.deleteAll();
 
     }
+
+    @Test
+    @DisplayName("return status http 400 and error message confirming that there are incorrect fields")
+    void returnErrorCreatedBook() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_BOOK_CREATED_ERROR.load())
+                .post(path)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo(error));
+
+
+        persistence.deleteAll();
+
+    }
+
+
 
     @Test
     @DisplayName("return status http 200 with a list of books")

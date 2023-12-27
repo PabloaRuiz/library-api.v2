@@ -28,21 +28,9 @@ public class LoanResource {
 
     @POST
     public Response createLoan(Loan loan) {
-        try {
-            var loanEntity = LoanConverts.convertToLoanEntity(loan);
-            loanPersistence.persist(loanEntity);
-            return Response.ok(loanEntity).build();
-
-        } catch (Exception e) {
-
-            return Response.status(INTERNAL_SERVER_ERROR)
-                    .entity(ResponseError.builder()
-                            .status(INTERNAL_SERVER_ERROR.getStatusCode())
-                            .message(ERROR_CREATING.getDescription())
-                            .build())
-                    .build();
-        }
-
+        var loanEntity = LoanConverts.convertToLoanEntity(loan);
+        loanPersistence.persist(loanEntity);
+        return Response.ok(loanEntity).build();
     }
 
     @GET

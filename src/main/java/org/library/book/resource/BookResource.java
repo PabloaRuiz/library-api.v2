@@ -5,21 +5,16 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.library.book.domain.Book;
 import org.library.book.persistence.BookPersistence;
 import org.library.book.persistence.converts.ConvertBook;
-import org.library.book.persistence.entity.BookEntity;
-import org.library.book.domain.Book;
 import org.library.loan.exception.ResponseError;
-
-
-import java.util.List;
-import java.util.Optional;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
-import static org.library.book.exception.ExceptionMessage.*;
-import static org.library.loan.exception.ExceptionMessage.ERROR_CREATING;
+import static org.library.book.exception.ExceptionMessage.BOOK_LIST_ERROR;
+import static org.library.book.exception.ExceptionMessage.BOOK_NOT_EXIST;
 
 
 @Path("api/v2/book")
@@ -32,20 +27,9 @@ public class BookResource {
 
     @POST
     public Response createBook(Book book) {
-        try {
             var bookEntity = ConvertBook.converterToBookEntity(book);
             bookPersistence.persist(bookEntity);
             return Response.ok(bookEntity).build();
-
-        } catch (Exception e) {
-
-            return Response.status(INTERNAL_SERVER_ERROR)
-                    .entity(ResponseError.builder()
-                            .status(INTERNAL_SERVER_ERROR.getStatusCode())
-                            .message(BOOK_CREATING.getDescription())
-                            .build())
-                    .build();
-        }
     }
 
     @GET

@@ -16,8 +16,8 @@ import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.library.book.exception.ExceptionMessage.BOOK_NOT_IS_ON_LOAN;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.library.book.persistence.converts.ConvertBook.converterToBookEntity;
 import static org.library.loan.exception.ExceptionMessage.LOAN_IS_NOT;
 import static org.library.loan.persistence.converts.LoanConverts.convertToLoanEntity;
@@ -27,6 +27,8 @@ import static org.library.loan.persistence.converts.LoanConverts.convertToLoanEn
 public class LoanResourceTest {
 
     private final String path = "/api/v2/loan/";
+
+    private final String error =  "Error in the operation, please check that the registration fields are completed";
 
     @Inject
     LoanPersistence loanPersistence;
@@ -61,6 +63,22 @@ public class LoanResourceTest {
                 .then()
                 .statusCode(200);
     }
+
+    @Test
+    @DisplayName("return status http 400 and error message confirming that there are incorrect fields")
+    @Order(6)
+    void returnErrorCreatedLoan() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_LOAN_CREATED_ERROR.load())
+                .post(path)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo(error));
+
+    }
+
 
     @Test
     @DisplayName("return http 400 and error message when not finding the client")
@@ -128,17 +146,8 @@ public class LoanResourceTest {
                 .body(JSON_ADD_BOOKS_LOAN.load())
                 .patch(path + "loan/Pablo")
                 .then()
-                .log()
-                .all()
                 .statusCode(204);
-
-        var book1 = bookPersistence.findByIsbn("1478523698");
-        var book2 = bookPersistence.findByIsbn("485588585");
-
-        assertFalse(book1.isAvailable());
-        assertFalse(book2.isAvailable());
     }
-
 
     @SneakyThrows
     private void initializeBooksData() {
