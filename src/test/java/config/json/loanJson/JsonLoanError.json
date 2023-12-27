@@ -1,0 +1,20 @@
+{
+  "customer": 15858,
+  "email": 151181815,
+  "loans": [
+    {
+      "title": "Java",
+      "author": "Pablo A. Ruiz",
+      "isbn": "1478523698",
+      "page": true,
+      "available": "515156"
+    },
+    {
+      "title": "Introdução Quarkus",
+      "author": "Pablo A. Ruiz",
+      "isbn": "1478523698",
+      "page": 60,
+      "available": false
+    }
+  ]
+}

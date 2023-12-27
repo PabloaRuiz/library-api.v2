@@ -2,29 +2,29 @@ package org.library.book.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.library.book.domain.Book;
 import org.library.book.persistence.BookPersistence;
 import org.library.book.persistence.entity.BookEntity;
 
-import javax.inject.Inject;
-
-import static config.JsonLoaderModel.JSON_BOOK;
-import static config.JsonLoaderModel.JSON_BOOKS;
+import static config.JsonLoaderModel.*;
 import static io.restassured.RestAssured.given;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.library.book.exception.ExceptionMessage.BOOK_NOT_EXIST;
 import static org.library.book.persistence.converts.ConvertBook.converterToBookEntity;
 
 @QuarkusTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class BookResourceTest {
 
     private final String path = "/api/v2/book/";
+
+    private final String error =  "Error in the operation, please check that the registration fields are completed";
 
     @Inject
     BookPersistence persistence;
@@ -43,7 +43,6 @@ public class BookResourceTest {
         }
 
     }
-
 
     @Test
     @DisplayName("returns error when not finding the book by isbn")
@@ -76,7 +75,27 @@ public class BookResourceTest {
                 .body("page", equalTo(180));
 
         persistence.deleteAll();
+
     }
+
+    @Test
+    @DisplayName("return status http 400 and error message confirming that there are incorrect fields")
+    void returnErrorCreatedBook() {
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .body(JSON_BOOK_CREATED_ERROR.load())
+                .post(path)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo(error));
+
+
+        persistence.deleteAll();
+
+    }
+
+
 
     @Test
     @DisplayName("return status http 200 with a list of books")
@@ -96,6 +115,7 @@ public class BookResourceTest {
         assertEquals(10, bookList.size());
 
         persistence.deleteAll();
+
     }
 
     @Test

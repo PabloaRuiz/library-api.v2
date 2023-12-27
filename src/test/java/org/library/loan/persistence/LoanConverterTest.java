@@ -6,6 +6,7 @@ import org.library.loan.domain.Loan;
 import org.library.loan.persistence.entity.LoanEntity;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,13 +20,13 @@ public class LoanConverterTest {
         var loan = Loan.of(
                 "Pablo",
                 "Pablo@gmail.com",
-                Map.of(Book.of(
+                List.of(Book.of(
                         "Teste unitários",
                         "Desconhecido",
                         "15411548",
                         120,
                         false
-                ), Instant.now())
+                ))
         );
 
         var entityLoan = convertToLoanEntity(loan);
@@ -40,12 +41,12 @@ public class LoanConverterTest {
         var loanentity = new LoanEntity(
                 "Pablo",
                 "Pablo@gmail.com",
-                Map.of(Book.of("Teste unitários",
+                List.of(Book.of("Teste unitários",
                         "Desconhecido",
                         "15411548",
                         120,
                         false
-                ),Instant.now()));
+                )));
 
         var loan = convertToLoanDomain(loanentity);
 
