@@ -18,7 +18,6 @@ Você pode executar a aplicação em modo de desenvolvimento, que permite a codi
 ./mvnw compile quarkus:dev
 ```
 
-
 NOTA: Quarkus inclui uma interface de usuário de desenvolvimento disponível
       apenas no modo de desenvolvimento em http://localhost:8080/q/dev/.
 
@@ -26,7 +25,6 @@ Empacotando e Executando a Aplicação
 A aplicação pode ser empacotada usando o seguinte comando:
 
 ```shell script
-Copy code
 ./mvnw package
 ```
 Isso produz o arquivo quarkus-run.jar no diretório target/quarkus-app/.
@@ -37,7 +35,6 @@ A aplicação agora é executável usando java -jar target/quarkus-app/quarkus-r
 Se você quiser construir um über-jar, execute o seguinte comando:
 
 ```shell script
-Copy code
 ./mvnw package -Dquarkus.package.type=uber-jar
 ```
 A aplicação, agora empacotada como um über-jar, pode ser executada usando java -jar target/*-runner.jar.
@@ -46,13 +43,11 @@ Criando um Executável Nativo
 Você pode criar um executável nativo usando:
 
 ```shell script
-Copy code
 ./mvnw package -Dnative
 ```
 Ou, se você não tiver o GraalVM instalado, pode executar a compilação do executável nativo em um contêiner usando:
 
 ```shell script
-Copy code
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 Em seguida, você pode executar seu executável nativo com: 
