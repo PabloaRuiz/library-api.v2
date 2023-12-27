@@ -1,6 +1,6 @@
 # Library API
 
-![Codecov](https://codecov.io/gh/PabloaRuiz/library-api.v2/branch/master/graph/badge.svg)
+[![codecov](https://codecov.io/gh/PabloaRuiz/library-api.v2/branch/main/graph/badge.svg)](https://codecov.io/gh/PabloaRuiz/library-api.v2/branch/main)
 
 Este projeto é uma API de biblioteca desenvolvida utilizando o Quarkus, o Supersônico Subatômico Java Framework.
 
