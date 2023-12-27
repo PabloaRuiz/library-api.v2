@@ -1,61 +1,53 @@
-# library
+# Library API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+![Codecov](https://codecov.io/gh/PabloaRuiz/library-api.v2/branch/master/graph/badge.svg)
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Este projeto é uma API de biblioteca desenvolvida utilizando o Quarkus, o Supersônico Subatômico Java Framework.
 
-## Running the application in dev mode
+Se você deseja aprender mais sobre o Quarkus, visite o site oficial: [Quarkus](https://quarkus.io/).
 
-You can run your application in dev mode that enables live coding using:
+## Sobre o Projeto
+
+O objetivo principal deste projeto é fornecer uma API de biblioteca reescrita utilizando os princípios do Domain-Driven Design (DDD). O DDD é uma abordagem de design de software que enfatiza a modelagem do domínio do negócio para garantir uma implementação mais alinhada com as necessidades reais da aplicação.
+
+## Executando a Aplicação em Modo de Desenvolvimento
+
+Você pode executar a aplicação em modo de desenvolvimento, que permite a codificação ao vivo, usando o seguinte comando:
+
 ```shell script
 ./mvnw compile quarkus:dev
-```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
-## Packaging and running the application
+NOTA: Quarkus inclui uma interface de usuário de desenvolvimento disponível apenas no modo de desenvolvimento em http://localhost:8080/q/dev/.
 
-The application can be packaged using:
-```shell script
+Empacotando e Executando a Aplicação
+A aplicação pode ser empacotada usando o seguinte comando:
+
+shell
+Copy code
 ./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Isso produz o arquivo quarkus-run.jar no diretório target/quarkus-app/. Este não é um über-jar, pois as dependências são copiadas para o diretório target/quarkus-app/lib/.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+A aplicação agora é executável usando java -jar target/quarkus-app/quarkus-run.jar.
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
+Se você quiser construir um über-jar, execute o seguinte comando:
+
+shell
+Copy code
 ./mvnw package -Dquarkus.package.type=uber-jar
-```
+A aplicação, agora empacotada como um über-jar, pode ser executada usando java -jar target/*-runner.jar.
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+Criando um Executável Nativo
+Você pode criar um executável nativo usando:
 
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
+shell
+Copy code
 ./mvnw package -Dnative
-```
+Ou, se você não tiver o GraalVM instalado, pode executar a compilação do executável nativo em um contêiner usando:
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
+shell
+Copy code
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+Em seguida, você pode executar seu executável nativo com: ./target/library-1.0.2-SNAPSHOT-runner
 
-You can then execute your native executable with: `./target/library-1.0.2-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- REST resources for MongoDB with Panache ([guide](https://quarkus.io/guides/rest-data-panache)): Generate Jakarta REST resources for your MongoDB entities and repositories
-- RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Para obter mais informações sobre a construção de executáveis nativos, consulte Quarkus - Maven Tooling.
